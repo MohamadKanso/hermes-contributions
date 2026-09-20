@@ -18,6 +18,34 @@ const ext = (url, label, cls = "text-link") =>
   `<a class="${cls}" href="${e(url)}" target="_blank" rel="noopener noreferrer">${label}${outArrow}</a>`;
 const ghPR = (n) => `https://github.com/NousResearch/hermes-agent/pull/${n}`;
 const hermesSite = "https://hermes-agent.nousresearch.com/";
+const hermesRepo = "https://github.com/NousResearch/hermes-agent";
+const nousLogo = "https://avatars.githubusercontent.com/u/134168893?v=4";
+const publicScale = [
+  {
+    value: "247k+",
+    label: "github stars",
+    url: hermesRepo,
+    note: "official repo snapshot",
+  },
+  {
+    value: "52k+",
+    label: "github forks",
+    url: hermesRepo,
+    note: "official repo snapshot",
+  },
+  {
+    value: "≈260k",
+    label: "x followers · nous research",
+    url: "https://x.com/NousResearch",
+    note: "rounded public estimate",
+  },
+  {
+    value: "959",
+    label: "github subscribers",
+    url: hermesRepo,
+    note: "official repo snapshot",
+  },
+];
 const outcomeLabel = (p) =>
   p.landed
     ? p.landed.kind === "authored"
@@ -76,8 +104,8 @@ function renderPage() {
   <section class="hero blue" id="top">
     <div class="hero-frame">
       <header class="header"><a class="wordmark" href="#top" aria-label="mohamad kanso home"><span class="mark" aria-hidden="true">m/k</span> mohamad kanso</a><nav aria-label="main navigation"><a href="#work">work</a><a href="#credits">credits</a><a href="#archive">archive</a>${ext("https://github.com/MohamadKanso", "github", "nav-github")}</nav></header>
-      <div class="hero-content"><div class="hero-copy"><a class="hero-project" href="${hermesSite}" target="_blank" rel="noopener noreferrer" aria-label="visit Hermes Agent by Nous Research"><span class="hero-project-emblem" aria-hidden="true">☤</span><span class="hero-project-copy"><strong>hermes agent</strong><small>by nous research · open source</small></span>${outArrow}</a><p class="overline"><span class="status-dot"></span> independent open-source contributor</p><h1>small fixes.<br><strong>real impact.</strong></h1><p class="hero-intro">i contribute to hermes agent, the open-source agent from nous research. here’s the work and the path into main.</p><a class="button hero-cta" href="#work">explore the work ${arrow}</a><a class="project-link" href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener noreferrer">hermes agent / nous research ${outArrow}</a></div>
-      <div class="map-wrap">${graph()}<div class="map-caption"><span id="map-caption">each point opens a real contribution</span><button id="motion-toggle" aria-pressed="true">motion on</button></div></div></div>
+      <div class="hero-content"><div class="hero-copy"><a class="hero-project" href="${hermesSite}" target="_blank" rel="noopener noreferrer" aria-label="visit Hermes Agent by Nous Research"><img class="hero-project-logo" src="${nousLogo}" alt="" width="38" height="38" decoding="async"><span class="hero-project-copy"><strong>hermes agent</strong><small>by nous research · open source</small></span>${outArrow}</a><p class="overline"><span class="status-dot"></span> independent open-source contributor</p><h1>small fixes.<br><strong>real impact.</strong></h1><p class="hero-intro">i contribute to hermes agent, the open-source agent from nous research. here’s the work and the path into main.</p><a class="button hero-cta" href="#work">explore the work ${arrow}</a><a class="project-link" href="${hermesRepo}" target="_blank" rel="noopener noreferrer">hermes agent / nous research ${outArrow}</a></div>
+      <div class="map-wrap">${graph()}<div class="map-caption"><span id="map-caption">each point opens a real contribution</span><button id="motion-toggle" aria-pressed="true">motion on</button></div><aside class="project-scale" aria-label="public Hermes Agent scale"><div class="project-scale-heading"><span>hermes agent / public scale</span><a href="${hermesSite}" target="_blank" rel="noopener noreferrer">official site ${outArrow}</a></div><div class="project-scale-grid">${publicScale.map((item) => `<a class="project-metric" href="${e(item.url)}" target="_blank" rel="noopener noreferrer" title="${e(item.note)}"><strong>${e(item.value)}</strong><span>${e(item.label)}</span></a>`).join("")}</div><p class="project-scale-note"><span class="status-dot"></span>hermes user count isn’t publicly disclosed · figures are a dated public snapshot</p></aside></div></div>
       <div class="hero-stats"><a href="#method"><strong>${m.landed.toString().padStart(2, "0")}</strong><span>landed contributions<small>through merged community prs</small></span></a><a href="#archive" data-jump="commits"><strong>${m.authoredMain + m.coauthoredMain}</strong><span>credited commits on main<small>8 authored + 9 co-authored</small></span></a><a href="#archive" data-jump="prs"><strong>${m.prs}</strong><span>pull requests opened<small>the full record, not just the wins</small></span></a></div>
     </div><div class="hero-foot"><span>field notes / 13–20 september 2026</span><span>snapshot checked ${displayDate(data.checkedAt)}</span></div>
   </section>
