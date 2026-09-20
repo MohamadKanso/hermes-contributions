@@ -442,12 +442,112 @@ export const quotes = [
     label: "both commits carried forward",
   },
   {
-    pr: 110966,
-    comment: 5676323534,
-    by: "kshitijk4poor",
+    pr: 115498,
+    comment: 5748392403,
+    by: "teknium1",
+    quote: "this landed on main via #116685 (148d1f6da54e)",
+    context: "on the concurrent telemetry investigation",
+    label: "landed on main",
+  },
+];
+
+// direct excerpts from integration prs authored by @teknium1. each row is
+// tied to one of the 13 integration paths where his pr body names the work.
+export const cofounderTrail = [
+  {
+    original: 110933,
+    via: 111344,
+    quote: "Salvages #110933 by @MohamadKanso",
+    label: "skills preservation",
+    note: "the source says the commits were cherry-picked with authorship intact",
+  },
+  {
+    original: 110859,
+    via: 111357,
     quote:
-      "Salvaged as #111624 with your commit cherry-picked (authorship preserved, @MohamadKanso)",
-    context: "on keeping human replies visible",
-    label: "merged with credit",
+      "Salvages #110859 by @MohamadKanso (both commits cherry-picked: attach rollback + drain-side detach).",
+    label: "terminal recovery",
+    note: "both authored fixes were carried into the merged dashboard change",
+  },
+  {
+    original: 112930,
+    via: 113210,
+    quote: "#112930 (@MohamadKanso — `/resume` guard)",
+    label: "session safety",
+    note: "the merged change combines the resume guard with the session-switch invariant suite",
+  },
+  {
+    original: 112947,
+    via: 113817,
+    quote:
+      "Salvages #112947 (@MohamadKanso — embed-budget resolver + clamp, ported out of the facade under their authorship).",
+    label: "vision budgets",
+    note: "the source names the resolver and clamp as the part carried under the author’s name",
+  },
+  {
+    original: 114473,
+    via: 114755,
+    quote:
+      "Salvages #114473 (@MohamadKanso) — source hunk cherry-picked as-is (author preserved).",
+    label: "scheduler drift",
+    note: "the original source hunk was carried into the fixed-period ticker change",
+  },
+  {
+    original: 112730,
+    via: 113106,
+    quote: "#112730 (@MohamadKanso, same skill-tool scope).",
+    label: "skill context",
+    note: "the source gives co-authored credit for the same skill-tool scope",
+  },
+  {
+    original: 112989,
+    via: 113180,
+    quote: "Co-authored: #112989 (@MohamadKanso)",
+    label: "desktop recovery",
+    note: "the pool-independent recovery inputs were adopted in the follow-up commit",
+  },
+  {
+    original: 112833,
+    via: 113188,
+    quote:
+      "the model/provider log-line idea is carried here, credited via `Co-authored-by`",
+    label: "reasoning diagnostics",
+    note: "the source credits the diagnostic idea while separating it from the wider proposal",
+  },
+  {
+    original: 114218,
+    via: 114851,
+    quote: "Supersedes #114218 (@MohamadKanso) — credited as Co-authored-by.",
+    label: "profile secrets",
+    note: "the broader declared-secret fix replaced the vendor-specific implementation",
+  },
+  {
+    original: 114430,
+    via: 114852,
+    quote: "#114430 (@MohamadKanso)",
+    label: "credential hints",
+    note: "the merged auth fix lists this proposal among the related fixes it superseded",
+  },
+  {
+    original: 114455,
+    via: 114888,
+    quote:
+      "Co-authored (design of the RPC cwd binding + registry tag): #114455 (@MohamadKanso), #90234 (@sum117).",
+    label: "project-local skills",
+    note: "the source records shared design credit for the cwd binding and registry cache",
+  },
+  {
+    original: 116083,
+    via: 116346,
+    quote: "credited as co-author on the first commit",
+    label: "provider routing",
+    note: "the maintainer describes the merged change as a slim redo in the same direction",
+  },
+  {
+    original: 115498,
+    via: 116685,
+    quote: "credited via `Co-authored-by` on the #115471 commit",
+    label: "concurrent telemetry",
+    note: "the investigation was carried into a safer relay-scope fix",
   },
 ];

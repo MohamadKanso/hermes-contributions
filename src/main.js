@@ -84,7 +84,7 @@ function renderPage() {
     <div class="feature-layout"><div class="feature-menu" role="tablist" aria-label="selected contributions">${data.features.map((f, i) => `<button role="tab" id="feature-tab-${i}" aria-selected="${i === 0}" aria-controls="feature-panel" tabindex="${i === 0 ? 0 : -1}" data-feature="${i}"><span class="feature-index">0${i + 1}</span><span>${e(descriptionsFor(f.id).title)}</span>${arrow}</button>`).join("")}</div><div id="feature-panel" role="tabpanel" aria-labelledby="feature-tab-0" tabindex="0"></div></div>
   </section>
   <section class="credits blue" id="credits"><div class="section-rule"><span>02 / the paper trail</span><span>in the maintainers’ own words</span></div>
-    <div class="credit-main"><div><p class="overline">${e(data.quotes[0].label)}</p><blockquote>“${e(data.quotes[0].quote)}”</blockquote>${ext(data.quotes[0].url, "read the original comment", "button")}</div><div class="credit-margin"><span class="credit-cross" aria-hidden="true">+</span><p>@teknium1<br>nous research co-founder<br>hermes maintainer</p><p>on the scheduler drift fix<br>18 september 2026</p><p class="credit-note">an excerpt, not a separate endorsement. the link opens the full conversation.</p></div></div>
+    <div class="credit-main"><div><p class="overline">${e(data.quotes[0].label)}</p><blockquote>“${e(data.quotes[0].quote)}”</blockquote>${ext(data.quotes[0].url, "read the original comment", "button")}</div><div class="credit-margin"><span class="credit-cross" aria-hidden="true">+</span><p>@teknium1<br>nous research co-founder<br>hermes maintainer<br>${ext("https://www.delphiintelligence.io/research/ama-1-transcript-with-nous-research-co-founder-and-post-training-lead-teknium1", "role source")}</p><p>on the scheduler drift fix<br>18 september 2026</p><p class="credit-note">an excerpt, not a separate endorsement. the link opens the full conversation.</p></div></div>
     <div class="credit-grid">${data.quotes
       .slice(1)
       .map(
@@ -92,7 +92,13 @@ function renderPage() {
           `<article><p class="overline">${e(q.label)}</p><blockquote>“${e(q.quote)}”</blockquote><p class="credit-by">@${e(q.by)}<br><span>${e(q.context)}</span></p>${ext(q.url, "view source")}</article>`,
       )
       .join("")}</div>
-    <div class="credit-bottom"><p>every credit has a source. shared work stays shared.</p><a href="#archive" data-jump="mentions">browse all ${m.mentions} explicit mentions ${arrow}</a></div>
+    <details class="credit-ledger"><summary>show all ${data.cofounderTrail.length} co-founder integration references ${arrow}</summary><p class="credit-ledger-intro">these are direct excerpts from @teknium1’s merged pull request descriptions. each row links the original proposal, the merged integration and the credited main commit. the archive still includes all ${m.tekniumMentions} explicit @teknium1 references, including discussion and coordination.</p><ol>${data.cofounderTrail
+      .map(
+        (item) =>
+          `<li><div class="credit-ledger-copy"><p class="overline">${e(item.label)} · ${e(item.kind)}</p><blockquote>“${e(item.quote)}”</blockquote><p>${e(item.note)}</p></div><div class="credit-ledger-links">${ext(item.originalUrl, `original #${item.original}`)}${ext(item.mergedUrl, `merged #${item.via}`)}${item.commitUrls.map((url, i) => ext(url, `commit ${i + 1}`)).join("")}${ext(item.sourceUrl, "source text")}</div></li>`,
+      )
+      .join("")}</ol></details>
+    <div class="credit-bottom"><p>every credit has a source. shared work stays shared.</p><a href="#archive" data-jump="mentions" data-filter="teknium1">browse all ${m.tekniumMentions} @teknium1 references ${arrow}</a></div>
   </section>
   <section class="section process" id="approach"><div class="section-rule"><span>03 / what the work taught me</span><span>better through review</span></div><div class="process-grid"><h2>less code.<br><em>better boundaries.</em></h2><div class="principles"><article><span>01</span><div><h3>test the thing that must stay true.</h3><p>a session should not change mid-turn. a dead viewer should not keep a terminal alive. the best tests make those rules visible.</p>${ext(ghPR(113210), "session invariant tests")}</div></article><article><span>02</span><div><h3>use the seam that already exists.</h3><p>review pushed these fixes toward shared helpers and existing guards. the smaller final implementation often tells the clearest story.</p>${ext(ghPR(116346), "the provider routing redo")}</div></article><article><span>03</span><div><h3>follow the change, not just the pr.</h3><p>maintainers sometimes combine patches or carry the useful part into a new pr. this archive follows that chain and states exactly what landed.</p>${ext(ghPR(111344), "the skills-preservation chain")}</div></article></div></div></section>
   <section class="section archive" id="archive"><div class="section-rule"><span>04 / the complete record</span><span>every outcome, linked</span></div><div class="section-heading archive-heading"><h2>nothing<br><em>left out.</em></h2><p>explore the patches, related issues, reachable commits and public mentions. open and superseded work stays visible too.</p></div>
@@ -211,9 +217,9 @@ function renderArchive() {
   document.querySelector("#prev-page").disabled = state.page === 1;
   document.querySelector("#next-page").disabled = state.page === pages;
 }
-function changeTab(tab) {
+function changeTab(tab, filter = "all") {
   state.tab = tab;
-  state.status = "all";
+  state.status = filter;
   state.page = 1;
   state.query = "";
   document.querySelector("#search").value = "";
@@ -284,7 +290,7 @@ function wireEvents() {
       changeTab(b.dataset.tab);
     }
     if (b.dataset.jump) {
-      changeTab(b.dataset.jump);
+      changeTab(b.dataset.jump, b.dataset.filter || "all");
     }
     if (b.dataset.detail) {
       history.replaceState(null, "", `#pr-${b.dataset.detail}`);

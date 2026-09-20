@@ -10,6 +10,7 @@ assert.equal(
 );
 assert.equal(d.mentions.length, d.metrics.mentions);
 assert.equal(d.issues.length, d.metrics.issues);
+assert.equal(d.cofounderTrail.length, 13);
 assert.equal(new Set(d.prs.map((x) => x.number)).size, d.prs.length);
 assert.equal(new Set(d.commits.map((x) => x.sha)).size, d.commits.length);
 assert.equal(
@@ -26,6 +27,12 @@ for (const i of d.integrations) {
 for (const f of d.features) {
   assert.ok(f.snippet.text.includes("@@"));
   assert.ok(d.commits.find((c) => c.sha === f.sha && c.onMain));
+}
+for (const item of d.cofounderTrail) {
+  assert.ok(item.quote);
+  assert.ok(item.sourceUrl.endsWith(`/pull/${item.via}`));
+  assert.ok(item.originalUrl.endsWith(`/pull/${item.original}`));
+  assert.ok(item.commitUrls.length);
 }
 function checkLinks(value) {
   if (!value || typeof value !== "object") return;

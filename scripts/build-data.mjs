@@ -6,6 +6,7 @@ import {
   alternatives,
   features,
   quotes,
+  cofounderTrail,
 } from "./curation.mjs";
 const read = async (name) =>
   JSON.parse(await readFile(`.audit/${name}.json`, "utf8"));
@@ -204,6 +205,30 @@ const quoteData = quotes.map((q) => {
     url: prUrl(q.pr) + (q.comment ? `#issuecomment-${q.comment}` : ""),
   };
 });
+const cofounderTrailData = cofounderTrail.map((item) => {
+  const source = pulls.find((x) => x.pr.number === item.via);
+  const integration = integrationData.find(
+    (x) => x.original === item.original && x.via === item.via,
+  );
+  if (!source || source.pr.user.login !== "teknium1")
+    throw new Error(`co-founder source is not by teknium1: ${item.via}`);
+  if (!integration)
+    throw new Error(`missing trail integration ${item.original}`);
+  if (!source.pr.body?.includes(item.quote))
+    throw new Error(`trail quote mismatch ${item.via}`);
+  if (item.quote.split(/\s+/).length > 25)
+    throw new Error(`trail quote too long ${item.via}`);
+  return {
+    ...item,
+    sourceUrl: source.pr.html_url,
+    originalUrl: prUrl(item.original),
+    mergedUrl: source.pr.html_url,
+    commitUrls: integration.commits.map(
+      (sha) => commits.find((c) => c.commit.sha === sha)?.commit.html_url,
+    ),
+    kind: integration.kind,
+  };
+});
 const featureData = features.map((f) => {
   const c = commits.find((x) => x.commit.sha === f.sha);
   const file = c?.commit.files.find((x) => x.filename === f.file);
@@ -263,6 +288,7 @@ const data = {
   integrations: integrationData,
   features: featureData,
   quotes: quoteData,
+  cofounderTrail: cofounderTrailData,
   prs: records,
   commits: commitRecords,
   issues: publicIssues,

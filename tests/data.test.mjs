@@ -56,6 +56,30 @@ test("every featured source sha is on main", () => {
   for (const f of d.features)
     assert.ok(d.commits.find((c) => c.onMain && c.sha === f.sha));
 });
+test("every co-founder trail row has a verified source and commit link", () => {
+  assert.equal(d.cofounderTrail.length, 13);
+  for (const item of d.cofounderTrail) {
+    assert.match(
+      item.sourceUrl,
+      /github\.com\/NousResearch\/hermes-agent\/pull\/\d+$/,
+    );
+    assert.match(
+      item.originalUrl,
+      /github\.com\/NousResearch\/hermes-agent\/pull\/\d+$/,
+    );
+    assert.match(
+      item.mergedUrl,
+      /github\.com\/NousResearch\/hermes-agent\/pull\/\d+$/,
+    );
+    assert.ok(item.commitUrls.length);
+    assert.ok(
+      item.commitUrls.every((url) =>
+        /github\.com\/NousResearch\/hermes-agent\/commit\//.test(url),
+      ),
+    );
+    assert.ok(item.quote.length > 0);
+  }
+});
 test("related pr references resolve inside the archive", () => {
   for (const c of d.commits)
     for (const n of c.prs) assert.ok(d.prs.find((p) => p.number === n));

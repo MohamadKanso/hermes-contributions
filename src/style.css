@@ -751,6 +751,86 @@ table,
   font-size: 9px;
   opacity: 0.75;
 }
+.credit-ledger {
+  border-bottom: 1px solid #ffffff60;
+  font-family: var(--mono);
+}
+.credit-ledger summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  font-size: 10px;
+}
+.credit-ledger summary::-webkit-details-marker {
+  display: none;
+}
+.credit-ledger summary svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s;
+}
+.credit-ledger[open] summary svg {
+  transform: rotate(90deg);
+}
+.credit-ledger-intro {
+  color: #c5c0fc;
+  font-size: 9px;
+  line-height: 1.8;
+  max-width: 720px;
+  margin: 0 0 20px;
+}
+.credit-ledger ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: trail;
+}
+.credit-ledger li {
+  counter-increment: trail;
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 32px;
+  padding: 18px 0;
+  border-top: 1px solid #ffffff45;
+}
+.credit-ledger-copy {
+  position: relative;
+  padding-left: 30px;
+}
+.credit-ledger-copy:before {
+  content: counter(trail, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-size: 9px;
+  color: #c9c2ff;
+}
+.credit-ledger-copy .overline {
+  color: #c9c2ff;
+  font-size: 8px;
+}
+.credit-ledger-copy blockquote {
+  font: 300 22px/1.25 var(--display);
+  margin: 10px 0 8px;
+  text-transform: lowercase;
+}
+.credit-ledger-copy > p:last-child {
+  color: #c5c0fc;
+  font-size: 9px;
+  line-height: 1.7;
+  margin: 0;
+}
+.credit-ledger-links {
+  align-self: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px 17px;
+  font-size: 9px;
+}
 .credit-bottom {
   display: flex;
   justify-content: space-between;
@@ -1753,6 +1833,16 @@ html[data-motion="true"] .map-thread:nth-child(3n + 1) path:nth-child(3) {
     font-size: 29px;
     margin: 15px 0 18px;
     max-width: 470px;
+  }
+  .credit-ledger li {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .credit-ledger-copy blockquote {
+    font-size: 25px;
+  }
+  .credit-ledger-links {
+    gap: 10px 15px;
   }
   .credit-by {
     font-size: 9px;
