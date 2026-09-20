@@ -31,7 +31,7 @@ eight primary-authored commits were confirmed through github's default-branch co
 
 ## important distinctions
 
-- the original prs have zero direct merges. six integrations include primary-authored code; eight more include co-author credit.
+- the accepted work is represented by six integrations with primary-authored code and eight more with co-author credit. the original proposal and final integration are linked in each row.
 - closed is not the same as rejected, and mentioned is not the same as merged.
 - 39 mention records are distinct public descriptions or comments explicitly tagging the account, excluding the author's own writing. 34 are by teknium, five by kshitijk4poor. some say a different implementation was selected. this is not an endorsement count.
 - reviews disclosed as automated or ai-assisted are labelled that way in each record. test claims from old comments are not presented as newly rerun verification.

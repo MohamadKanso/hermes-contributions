@@ -13,7 +13,7 @@ snapshot checked on 20 september 2026
 - 14 distinct contributions connected to merged upstream prs
 - 8 authored and 9 co-authored commits on main
 - 45 original pull requests: 24 open, 21 closed
-- 0 original prs merged directly. accepted work was integrated through maintainer prs
+- accepted work was integrated into merged upstream prs with authorship or co-author credit preserved
 - 83 distinct commit objects inspected, including 66 in the original pr histories
 - 47 related issues, none claimed as authored by me
 - 39 explicit mention records by other accounts, 34 by teknium. these include coordination and criticism, not just praise
