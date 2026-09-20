@@ -62,37 +62,15 @@
       .identity {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 12px;
       }
       .identity-mark {
-        width: 46px;
-        height: 46px;
-        display: block;
-        padding: 4px;
-        position: relative;
-        border: 1px solid #ffffffb0;
-        background: #f3f1e9;
-        box-shadow: 0 0 0 4px #ffffff0a;
-      }
-      .identity-mark img {
-        width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: cover;
-      }
-      .identity-mark:after {
-        content: "☤";
-        width: 21px;
-        height: 21px;
+        width: 32px;
+        height: 32px;
         display: grid;
         place-items: center;
-        position: absolute;
-        right: -10px;
-        bottom: -9px;
-        border: 1px solid #f3f1e9;
-        background: #1800ef;
-        color: #f3f1e9;
-        font: 15px/1 display;
+        border: 1px solid #ffffffb0;
+        font: 21px/1 display;
       }
       .identity-copy {
         display: flex;
@@ -100,7 +78,7 @@
         gap: 3px;
       }
       .identity-copy strong {
-        font: 400 23px/1 display;
+        font: 400 20px/1 display;
         letter-spacing: 0.02em;
       }
       .identity-copy small {
@@ -111,20 +89,113 @@
         font-size: 11px;
         text-align: right;
       }
-      h1 {
-        font: 300 128px/0.86 display;
-        margin: 52px 0 24px;
-        letter-spacing: -3px;
+      .hero-layout {
+        position: absolute;
+        top: 100px;
+        right: 30px;
+        bottom: 91px;
+        left: 30px;
+        display: grid;
+        grid-template-columns: 292px 1fr;
+        gap: 46px;
+        align-items: center;
       }
-      p {
-        font-size: 13px;
-        line-height: 1.8;
-        max-width: 365px;
+      .girl-stage {
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #ffffff3d;
       }
-      .project-line {
+      .girl-stage:before,
+      .girl-stage:after {
+        content: "";
+        position: absolute;
+        border: 1px solid #ffffff24;
+        border-radius: 50%;
+      }
+      .girl-stage:before {
+        width: 276px;
+        height: 276px;
+      }
+      .girl-stage:after {
+        width: 226px;
+        height: 226px;
+      }
+      .nous-girl {
+        width: auto;
+        height: 350px;
+        display: block;
+        position: relative;
+        z-index: 1;
+        filter: drop-shadow(0 0 22px #ffffff21);
+      }
+      .girl-caption {
+        position: absolute;
+        left: 8px;
+        bottom: 9px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 7px 9px 6px;
+        border: 1px solid #ffffff66;
+        background: #1800ef;
+        font-size: 9px;
+        letter-spacing: 0.05em;
+      }
+      .girl-caption strong {
+        font: 400 18px/1 display;
+        letter-spacing: 0.03em;
+      }
+      .headline-block {
+        min-width: 0;
+        position: relative;
+        align-self: center;
+        padding-bottom: 58px;
+      }
+      .eyebrow {
+        margin: 0 0 17px;
         color: #d8d2ff;
-        font-size: 11px;
-        margin-top: 10px;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+      }
+      h1 {
+        position: relative;
+        z-index: 2;
+        font: 300 100px/0.86 display;
+        margin: 0;
+        letter-spacing: -2.5px;
+      }
+      .hero-meta {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: flex-end;
+        gap: 28px;
+        margin-top: 27px;
+      }
+      .hero-meta p {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.65;
+      }
+      .hero-meta .project-line {
+        padding-left: 28px;
+        border-left: 1px solid #ffffff55;
+        color: #d8d2ff;
+        font-size: 10px;
+      }
+      .headline-block svg {
+        position: absolute;
+        right: -5px;
+        bottom: 0;
+        z-index: 1;
+        width: 442px;
+        height: 190px;
+        overflow: visible;
+        opacity: 0.56;
       }
       .stats {
         position: absolute;
@@ -142,14 +213,6 @@
         font-size: 25px;
         vertical-align: -3px;
         margin-right: 8px;
-      }
-      svg {
-        position: absolute;
-        right: 36px;
-        top: 128px;
-        width: 545px;
-        height: 360px;
-        overflow: visible;
       }
       svg path {
         fill: none;
@@ -173,13 +236,7 @@
     <div class="frame">
       <header>
         <span class="identity"
-          ><span class="identity-mark"
-            ><img
-              src="https://avatars.githubusercontent.com/u/134168893?v=4"
-              alt=""
-              width="38"
-              height="38"
-              decoding="sync" /></span
+          ><span class="identity-mark">☤</span
           ><span class="identity-copy"
             ><strong>hermes agent</strong
             ><small>by nous research · open source</small></span
@@ -188,14 +245,35 @@
           >mohamad kanso<br />independent open-source contributor</span
         >
       </header>
-      <h1>small fixes.<br />real impact.</h1>
-      <p>a contribution record for<br />hermes agent / nous research</p>
-      <p class="project-line">14 paths into main · code, context, outcome</p>
-      <svg viewBox="0 0 600 420" aria-label="contribution paths">
-        <g id="lines"></g>
-        <circle cx="555" cy="25" r="4" />
-        <text x="564" y="29">main</text>
-      </svg>
+      <div class="hero-layout">
+        <div class="girl-stage">
+          <img
+            class="nous-girl"
+            src="https://web-assets.nousresearch.com/nousnet-web/assets/hermes-landing/teams/nous-girl.66f8944c40c50f8c.svg"
+            alt="Nous Research"
+            width="250"
+            height="350"
+            decoding="sync" />
+          <span class="girl-caption"
+            ><strong>nous research</strong><span>hermes agent</span></span
+          >
+        </div>
+        <div class="headline-block">
+          <p class="eyebrow">open-source agent engineering</p>
+          <h1>real contributions.<br />landed upstream.</h1>
+          <div class="hero-meta">
+            <p>mohamad kanso<br />independent contributor</p>
+            <p class="project-line">
+              14 paths into main<br />code, context, outcome
+            </p>
+          </div>
+          <svg viewBox="0 0 600 420" aria-label="contribution paths">
+            <g id="lines"></g>
+            <circle cx="555" cy="25" r="4" />
+            <text x="564" y="29">main</text>
+          </svg>
+        </div>
+      </div>
       <div class="stats">
         <span><strong>14</strong> landed paths</span>
         <span><strong>17</strong> credited commits</span>
