@@ -17,6 +17,7 @@ const outArrow =
 const ext = (url, label, cls = "text-link") =>
   `<a class="${cls}" href="${e(url)}" target="_blank" rel="noopener noreferrer">${label}${outArrow}</a>`;
 const ghPR = (n) => `https://github.com/NousResearch/hermes-agent/pull/${n}`;
+const hermesSite = "https://hermes-agent.nousresearch.com/";
 const outcomeLabel = (p) =>
   p.landed
     ? p.landed.kind === "authored"
@@ -75,7 +76,7 @@ function renderPage() {
   <section class="hero blue" id="top">
     <div class="hero-frame">
       <header class="header"><a class="wordmark" href="#top" aria-label="mohamad kanso home"><span class="mark" aria-hidden="true">m/k</span> mohamad kanso</a><nav aria-label="main navigation"><a href="#work">work</a><a href="#credits">credits</a><a href="#archive">archive</a>${ext("https://github.com/MohamadKanso", "github", "nav-github")}</nav></header>
-      <div class="hero-content"><div class="hero-copy"><p class="overline"><span class="status-dot"></span> independent open-source contributor</p><h1>small fixes.<br><strong>real impact.</strong></h1><p class="hero-intro">i contribute to hermes agent, the open-source agent from nous research. here’s the work and the path into main.</p><a class="button hero-cta" href="#work">explore the work ${arrow}</a><a class="project-link" href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener noreferrer">hermes agent / nous research ${outArrow}</a></div>
+      <div class="hero-content"><div class="hero-copy"><a class="hero-project" href="${hermesSite}" target="_blank" rel="noopener noreferrer" aria-label="visit Hermes Agent by Nous Research"><span class="hero-project-emblem" aria-hidden="true">☤</span><span class="hero-project-copy"><strong>hermes agent</strong><small>by nous research · open source</small></span>${outArrow}</a><p class="overline"><span class="status-dot"></span> independent open-source contributor</p><h1>small fixes.<br><strong>real impact.</strong></h1><p class="hero-intro">i contribute to hermes agent, the open-source agent from nous research. here’s the work and the path into main.</p><a class="button hero-cta" href="#work">explore the work ${arrow}</a><a class="project-link" href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener noreferrer">hermes agent / nous research ${outArrow}</a></div>
       <div class="map-wrap">${graph()}<div class="map-caption"><span id="map-caption">each point opens a real contribution</span><button id="motion-toggle" aria-pressed="true">motion on</button></div></div></div>
       <div class="hero-stats"><a href="#method"><strong>${m.landed.toString().padStart(2, "0")}</strong><span>landed contributions<small>through merged community prs</small></span></a><a href="#archive" data-jump="commits"><strong>${m.authoredMain + m.coauthoredMain}</strong><span>credited commits on main<small>8 authored + 9 co-authored</small></span></a><a href="#archive" data-jump="prs"><strong>${m.prs}</strong><span>pull requests opened<small>the full record, not just the wins</small></span></a></div>
     </div><div class="hero-foot"><span>field notes / 13–20 september 2026</span><span>snapshot checked ${displayDate(data.checkedAt)}</span></div>

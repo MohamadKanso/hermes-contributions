@@ -19,7 +19,12 @@
       }
       body {
         margin: 0;
-        background: #1800ef;
+        background: radial-gradient(
+          circle at 80% 25%,
+          #4c4bff 0,
+          #1800ef 36%,
+          #1000b8 100%
+        );
         color: #f3f1e9;
         width: 1200px;
         height: 630px;
@@ -33,22 +38,71 @@
         position: relative;
         overflow: hidden;
       }
+      .frame:before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        right: -130px;
+        top: -210px;
+        border: 1px solid #ffffff22;
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 24px #ffffff0b,
+          0 0 0 48px #ffffff08;
+      }
       header {
         font-size: 14px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         border-bottom: 1px solid #ffffff55;
         padding-bottom: 20px;
       }
+      .identity {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .identity-mark {
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        border: 1px solid #ffffffb0;
+        font: 21px/1 display;
+      }
+      .identity-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .identity-copy strong {
+        font: 400 20px/1 display;
+        letter-spacing: 0.02em;
+      }
+      .identity-copy small {
+        font-size: 9px;
+        opacity: 0.78;
+      }
+      .header-role {
+        font-size: 11px;
+        text-align: right;
+      }
       h1 {
         font: 300 128px/0.86 display;
-        margin: 62px 0 24px;
+        margin: 52px 0 24px;
         letter-spacing: -3px;
       }
       p {
         font-size: 13px;
         line-height: 1.8;
         max-width: 365px;
+      }
+      .project-line {
+        color: #d8d2ff;
+        font-size: 11px;
+        margin-top: 10px;
       }
       .stats {
         position: absolute;
@@ -70,7 +124,7 @@
       svg {
         position: absolute;
         right: 36px;
-        top: 115px;
+        top: 128px;
         width: 545px;
         height: 360px;
         overflow: visible;
@@ -96,11 +150,19 @@
   <body>
     <div class="frame">
       <header>
-        <span>mohamad kanso</span
-        ><span>independent open-source contributor</span>
+        <span class="identity"
+          ><span class="identity-mark">☤</span
+          ><span class="identity-copy"
+            ><strong>hermes agent</strong
+            ><small>by nous research · open source</small></span
+          ></span
+        ><span class="header-role"
+          >mohamad kanso<br />independent open-source contributor</span
+        >
       </header>
       <h1>small fixes.<br />real impact.</h1>
       <p>a contribution record for<br />hermes agent / nous research</p>
+      <p class="project-line">14 paths into main · code, context, outcome</p>
       <svg viewBox="0 0 600 420" aria-label="contribution paths">
         <g id="lines"></g>
         <circle cx="555" cy="25" r="4" />
@@ -118,7 +180,7 @@
         })
         .join("");
       document.querySelector("#stats").innerHTML =
-        `<span><strong>${d.metrics.landed}</strong> landed contributions</span><span><strong>${d.metrics.authoredMain + d.metrics.coauthoredMain}</strong> credited commits</span><span><strong>${d.metrics.prs}</strong> pull requests</span><small>verified september 2026</small>`;
+        `<span><strong>${d.metrics.landed}</strong> landed paths</span><span><strong>${d.metrics.authoredMain + d.metrics.coauthoredMain}</strong> credited commits</span><span><strong>${d.metrics.prs}</strong> pull requests</span><span><strong>247k+</strong> github stars</span><small>verified september 2026</small>`;
     </script>
   </body>
 </html>
