@@ -4,50 +4,54 @@ import { readFile, writeFile } from "node:fs/promises";
 
 const run = promisify(execFile);
 const base = "repos/NousResearch/hermes-agent";
-const source = process.env.HERMES_SOURCE;
-if (!source) throw new Error("set HERMES_SOURCE to the local hermes checkout");
 const pulls = JSON.parse(await readFile(".audit/pulls.json", "utf8"));
 const upstream = JSON.parse(
   await readFile(".audit/upstream-commits.json", "utf8"),
 );
-const git = async (args) =>
-  (await run("git", args, { cwd: source, maxBuffer: 32 * 1024 * 1024 })).stdout;
-const api = async (endpoint) =>
+const api = async (endpoint, args = []) =>
   JSON.parse(
-    (await run("gh", ["api", endpoint], { maxBuffer: 32 * 1024 * 1024 }))
-      .stdout,
+    (
+      await run("gh", ["api", ...args, endpoint], {
+        maxBuffer: 32 * 1024 * 1024,
+      })
+    ).stdout,
   );
-const baseSha = (await git(["rev-parse", "upstream/main"])).trim();
 const current = await api(`${base}/commits/main`);
-const recent = await api(
-  `${base}/compare/${baseSha}...${current.sha}?per_page=100`,
-);
-if (recent.total_commits > recent.commits.length)
-  throw new Error("recent comparison needs pagination");
 const authored = pulls.filter((x) =>
   ["MohamadKanso", "MoKanso"].includes(x.pr.user.login),
 );
 const shas = new Set(authored.flatMap((x) => x.commits.map((c) => c.sha)));
 const coauthorPattern =
   /co-authored-by:.*(?:mohamad\s*kanso|mkanso|kanso1245)/i;
-const localCoauthors = (
-  await git([
-    "log",
-    "upstream/main",
-    "--format=%H",
-    "--regexp-ignore-case",
-    "--grep=co-authored-by:.*kanso",
-  ])
-)
-  .trim()
-  .split("\n")
-  .filter(Boolean);
-const coauthors = new Set([
-  ...localCoauthors,
-  ...recent.commits
-    .filter((c) => coauthorPattern.test(c.commit.message))
-    .map((c) => c.sha),
-]);
+// github commit search covers the default branch. every trailer hit is
+// re-checked below as an ancestor of the current main head.
+const coauthorQueries = [
+  '"Co-authored-by: MohamadKanso"',
+  '"Co-authored-by: Mohamad Kanso"',
+  '"91088196+MohamadKanso"',
+  '"kanso1245@gmail.com"',
+  "co-authored-by kanso",
+];
+const coauthors = new Set();
+for (const q of coauthorQueries) {
+  const pages = await api("search/commits", [
+    "-X",
+    "GET",
+    "-f",
+    `q=repo:NousResearch/hermes-agent ${q}`,
+    "-f",
+    "per_page=100",
+    "--paginate",
+    "--slurp",
+  ]);
+  for (const item of pages.flatMap((p) => p.items))
+    if (coauthorPattern.test(item.commit.message)) coauthors.add(item.sha);
+}
+for (const sha of coauthors) {
+  const { status } = await api(`${base}/compare/${sha}...${current.sha}`);
+  if (!["ahead", "identical"].includes(status))
+    throw new Error(`co-authored commit not on main: ${sha} (${status})`);
+}
 for (const c of upstream) shas.add(c.commit.sha);
 for (const sha of coauthors) shas.add(sha);
 const result = [];
@@ -90,10 +94,8 @@ await writeFile(
   JSON.stringify(
     {
       checkedAt: new Date().toISOString(),
-      localAncestor: baseSha,
+      method: "github commit search, each sha checked against main",
       currentMain: current.sha,
-      status: recent.status,
-      newCommits: recent.total_commits,
       coauthorShas: [...coauthors],
     },
     null,

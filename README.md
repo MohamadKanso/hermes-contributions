@@ -8,15 +8,15 @@ my open-source work on hermes agent, with the code and the credit behind it.
 
 ## the record
 
-snapshot checked on 20 september 2026
+snapshot checked on 17 october 2026, covering 13 september – 17 october 2026
 
-- 14 distinct contributions connected to merged upstream prs
-- 8 authored and 9 co-authored commits on main
-- 45 original pull requests: 24 open, 21 closed
+- 27 distinct contributions connected to merged upstream prs
+- 21 authored and 13 co-authored commits on main
+- 95 original pull requests: 53 open, 41 closed, 1 merged directly (#119085)
 - accepted work was integrated into merged upstream prs with authorship or co-author credit preserved
-- 83 distinct commit objects inspected, including 66 in the original pr histories
-- 47 related issues, none claimed as authored by me
-- 39 explicit mention records by other accounts, 34 by teknium. these include coordination and criticism, not just praise
+- 206 distinct commit objects inspected, including 172 in the original pr histories
+- 104 related issues, none claimed as authored by me
+- 81 explicit mention records by other accounts, 51 by teknium. these include coordination and criticism, not just praise
 
 the six case studies explain the problem, what changed, and my exact part in the result. the archive includes every original pr in the audit, all reachable commit records, the related issues and the mention sources.
 
@@ -39,11 +39,11 @@ the site is plain html, css and javascript bundled with vite. all fonts and evid
 
 the public page is intentionally a dated snapshot. no scheduled updates silently change the attribution.
 
-with the github cli authenticated and a local hermes checkout available:
+with the github cli authenticated:
 
 ```sh
 node scripts/audit.mjs --refresh
-HERMES_SOURCE=/absolute/path/to/hermes-agent node scripts/expand-audit.mjs
+node scripts/expand-audit.mjs
 node scripts/expand-issues.mjs
 ```
 

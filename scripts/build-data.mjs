@@ -14,15 +14,24 @@ const [pulls, issues, commits, manifest, ancestry] = await Promise.all(
   ["pulls", "issues", "all-commits", "manifest", "ancestry"].map(read),
 );
 const own = (x) => ["MohamadKanso", "MoKanso"].includes(x);
+// the upstream contributor map is keyed by email address; keep those out of the public index.
+const safePath = (path) =>
+  path.startsWith("contributors/emails/")
+    ? "contributors/emails/(address redacted)"
+    : path;
 const prUrl = (n) => `https://github.com/NousResearch/hermes-agent/pull/${n}`;
 const ours = pulls.filter((x) => own(x.pr.user.login));
 const integrationData = integrations.map((item) => {
   const target = pulls.find((x) => x.pr.number === item.via);
   if (!target?.pr.merged_at) throw new Error(`not merged: ${item.via}`);
+  const vias = [item.via, ...(item.also || [])];
+  for (const n of item.also || [])
+    if (!pulls.find((x) => x.pr.number === n)?.pr.merged_at)
+      throw new Error(`not merged: ${n}`);
   const credited = commits.filter(
     (c) =>
       (c.landedAuthor || c.landedCoauthor) &&
-      c.linked.some((p) => p.number === item.via),
+      c.linked.some((p) => vias.includes(p.number)),
   );
   if (!credited.length) throw new Error(`no upstream credit for ${item.via}`);
   return {
@@ -30,6 +39,8 @@ const integrationData = integrations.map((item) => {
     date: target.pr.merged_at,
     url: target.pr.html_url,
     by: target.pr.user.login,
+    direct: Boolean(item.direct),
+    also: (item.also || []).map((n) => ({ number: n, url: prUrl(n) })),
     commits: credited.map((c) => c.commit.sha),
   };
 });
@@ -85,7 +96,7 @@ const records = ours.map(
         issues.some((x) => x.issue.number === n && !x.issue.pull_request),
       ),
       files: files.map((f) => ({
-        path: f.filename,
+        path: safePath(f.filename),
         additions: f.additions,
         deletions: f.deletions,
       })),
@@ -130,7 +141,7 @@ const commitRecords = commits
     prs: c.authoredPRs,
     mergedThrough: c.linked.filter((p) => p.merged_at).map((p) => p.number),
     files: c.commit.files.map((f) => ({
-      path: f.filename,
+      path: safePath(f.filename),
       additions: f.additions,
       deletions: f.deletions,
     })),
@@ -208,7 +219,9 @@ const quoteData = quotes.map((q) => {
 const cofounderTrailData = cofounderTrail.map((item) => {
   const source = pulls.find((x) => x.pr.number === item.via);
   const integration = integrationData.find(
-    (x) => x.original === item.original && x.via === item.via,
+    (x) =>
+      x.original === item.original &&
+      (x.via === item.via || x.also.some((a) => a.number === item.via)),
   );
   if (!source || source.pr.user.login !== "teknium1")
     throw new Error(`co-founder source is not by teknium1: ${item.via}`);
@@ -223,10 +236,11 @@ const cofounderTrailData = cofounderTrail.map((item) => {
     sourceUrl: source.pr.html_url,
     originalUrl: prUrl(item.original),
     mergedUrl: source.pr.html_url,
-    commitUrls: integration.commits.map(
-      (sha) => commits.find((c) => c.commit.sha === sha)?.commit.html_url,
-    ),
-    kind: integration.kind,
+    commitUrls: integration.commits
+      .map((sha) => commits.find((c) => c.commit.sha === sha))
+      .filter((c) => c.linked.some((p) => p.number === item.via))
+      .map((c) => c.commit.html_url),
+    kind: integration.via === item.via ? integration.kind : "co-authored",
   };
 });
 const featureData = features.map((f) => {
@@ -270,6 +284,11 @@ const data = {
     closedPRs: records.filter((p) => p.state === "closed").length,
     directMerges: records.filter((p) => p.mergedAt).length,
     landed: integrationData.length,
+    authoredIntegrations: integrationData.filter((x) => x.kind === "authored")
+      .length,
+    coauthoredIntegrations: integrationData.filter(
+      (x) => x.kind === "co-authored",
+    ).length,
     authoredMain: commitRecords.filter((c) => c.role === "author on main")
       .length,
     coauthoredMain: commitRecords.filter((c) => c.role === "co-author on main")

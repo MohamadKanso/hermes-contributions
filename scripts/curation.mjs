@@ -1,5 +1,255 @@
 // plain-language descriptions are editorial. status and attribution come from github.
 export const descriptions = {
+  137982: [
+    "keep ambiguous relay deliveries ambiguous",
+    "gateway",
+    "preserves the ambiguous result when the relay reader exits before an acknowledgement",
+  ],
+  137868: [
+    "keep office media paths with spaces",
+    "interface",
+    "stops an unquoted office media path with spaces being cut at the first space",
+  ],
+  135528: [
+    "accept path answers to clarify prompts",
+    "gateway",
+    "lets a pending clarify accept an answer that starts with a path",
+  ],
+  135467: [
+    "close the scoped review pane",
+    "interface",
+    "lets the review pane's close action hide a pane a changed-files card revealed",
+  ],
+  135334: [
+    "keep shipped docker extras",
+    "runtime",
+    "records the extras in the docker image so the first package generation keeps them",
+  ],
+  135224: [
+    "drop stale dates from version labels",
+    "developer tools",
+    "removes an outdated release-date suffix from cli version labels",
+  ],
+  135141: [
+    "keep subprocess output above fd_setsize",
+    "runtime",
+    "keeps reading pipes whose descriptor is above the select limit",
+  ],
+  135070: [
+    "strip terminal escapes before clipping",
+    "tools",
+    "stops cut escape sequences leaking into process output previews",
+  ],
+  135045: [
+    "register the plugin scan default",
+    "tools",
+    "makes the effective plugins.scan_on_install value visible before it is saved",
+  ],
+  134924: [
+    "keep failed backups out of retention",
+    "tools",
+    "stops a failed minecraft backup from counting as good and deleting an older one",
+  ],
+  134907: [
+    "prune each profile's scratch space",
+    "runtime",
+    "lets every profile prune its own scratch directory once per process",
+  ],
+  134756: [
+    "hide tool and subagent sessions from projects",
+    "interface",
+    "keeps automation sessions out of the desktop project tree and its counts",
+  ],
+  133998: [
+    "stage native deps outside the build tree",
+    "developer tools",
+    "fixes explicit-architecture desktop builds failing before packaging",
+  ],
+  133218: [
+    "avoid resending partial signal group messages",
+    "gateway",
+    "stops a partly delivered group reply from reaching the same members twice",
+  ],
+  132427: [
+    "keep refreshed model prices",
+    "interface",
+    "stops an older cached catalog read from undoing an explicit refresh",
+  ],
+  132420: [
+    "run posix-dependent tests on native lanes",
+    "developer tools",
+    "adds platform markers so os-dependent tests run where their behaviour is owned",
+  ],
+  132418: [
+    "avoid re-exec loops during deferred updates",
+    "runtime",
+    "stops the launcher restarting the same interpreter while source completion is backing off",
+  ],
+  132413: [
+    "escape backtick shortcuts in the desktop guide",
+    "developer tools",
+    "stops unescaped backtick keys pairing into inline code in the docs",
+  ],
+  131702: [
+    "route artifact reads to the owning connection",
+    "interface",
+    "reads an artifact from the connection that produced it",
+  ],
+  131651: [
+    "deliver a late steer instead of dropping it",
+    "gateway",
+    "runs a mid-turn steer first when a queued message or background event also arrives",
+  ],
+  131647: [
+    "protect live sessions during app swaps",
+    "interface",
+    "leaves a running desktop bundle alone on posix updates and asks for a rerun",
+  ],
+  131646: [
+    "close numeric ip ssrf bypasses",
+    "security",
+    "blocks decimal, octal and hex ip literals in a2a callback urls",
+  ],
+  131643: [
+    "jump to the latest reply from the timeline",
+    "interface",
+    "scrolls to the bottom and re-latches stick-to-bottom from the newest timeline tick",
+  ],
+  131641: [
+    "test the xai oauth write-through",
+    "developer tools",
+    "adds assertions for how xai oauth credentials are written back",
+  ],
+  131638: [
+    "validate s6 environment keys",
+    "security",
+    "rejects unsafe environment variable names when rendering s6 service scripts",
+  ],
+  131636: [
+    "redact bluebubbles passwords from errors",
+    "security",
+    "keeps query-string credentials out of rest error messages and logs",
+  ],
+  131633: [
+    "verify relay media origins",
+    "security",
+    "replaces a substring check with origin and scheme checks before fetching relay media",
+  ],
+  131628: [
+    "prevent path traversal in pending approvals",
+    "security",
+    "constrains pending-approval record paths to their own directory",
+  ],
+  131622: [
+    "fix signal formatting around code blocks",
+    "gateway",
+    "keeps monospace ranges aligned when headings come before code blocks",
+  ],
+  131618: [
+    "block backslash open redirects",
+    "security",
+    "rejects backslash paths that browsers treat as a different origin after dashboard sign-in",
+  ],
+  131613: [
+    "render command templates in one pass",
+    "tools",
+    "replaces two-pass placeholder substitution in tts command templates with a single regex pass",
+  ],
+  131607: [
+    "sort pinned conversations by name",
+    "interface",
+    "orders pinned desktop conversations alphabetically",
+  ],
+  131597: [
+    "keep subagent completions out of the chat",
+    "gateway",
+    "stops background work from a subagent re-pinning the parent chat's route",
+  ],
+  130376: [
+    "load bound skills on the first turn",
+    "gateway",
+    "stops a non-generating command from causing a channel's bound skills to be skipped",
+  ],
+  121722: [
+    "check slash access against the right profile",
+    "gateway",
+    "reads slash-command permissions from the serving profile and fails closed when it is missing",
+  ],
+  121672: [
+    "guard the restart watcher against pid reuse",
+    "runtime",
+    "prevents a detached watcher from starting a second gateway when a pid never exits",
+  ],
+  121308: [
+    "avoid duplicate clarify rows",
+    "interface",
+    "stops an answered clarify prompt from being written to the transcript twice",
+  ],
+  121243: [
+    "match dashboard processes exactly",
+    "developer tools",
+    "uses the exact entrypoint matcher so unrelated processes are not treated as hermes",
+  ],
+  119479: [
+    "accept plugin tool servers at startup",
+    "tools",
+    "stops valid portable plugin mcp names from triggering a false unknown-toolsets warning",
+  ],
+  119085: [
+    "aggregate sessions across gateways",
+    "interface",
+    "makes the desktop sessions list span every registered gateway and profile",
+  ],
+  119037: [
+    "keep steering through a session rotation",
+    "interface",
+    "stops mid-turn steering from going nowhere while a stored session id rotates",
+  ],
+  119022: [
+    "keep windows ssh homes on the remote",
+    "interface",
+    "takes the hermes home from the remote machine instead of the forwarded ssh environment",
+  ],
+  118990: [
+    "load the local skin before connecting",
+    "interface",
+    "applies the saved desktop theme before waiting on the gateway connection",
+  ],
+  118530: [
+    "keep the transcript pinned while it grows",
+    "interface",
+    "holds the view at the bottom during streaming when the reader was already there",
+  ],
+  118489: [
+    "reuse the private host token on update",
+    "interface",
+    "lets a relaunched desktop window recover its token from the same-user rendezvous record",
+  ],
+  118442: [
+    "keep message times beside their actions",
+    "interface",
+    "shows user and assistant timestamps next to the existing message controls",
+  ],
+  118406: [
+    "reject refusals posing as summaries",
+    "memory",
+    "stops a summary model's refusal from replacing real conversation history during compression",
+  ],
+  118374: [
+    "make relay connector failures clear",
+    "gateway",
+    "turns malformed or non-utf8 connector responses into one consistent error",
+  ],
+  117504: [
+    "honour the provider's rate-limit reset",
+    "providers",
+    "uses the provider's own reset time instead of guessing an exponential cooldown",
+  ],
+  117177: [
+    "clean up checkpoints on windows",
+    "developer tools",
+    "clears read-only git objects so checkpoint cleanup does not fail with access denied",
+  ],
   117166: [
     "keep silence filtering tied to config",
     "gateway",
@@ -286,13 +536,6 @@ export const integrations = [
     note: "my finding about pool-independent recovery inputs was adopted in the follow-up commit, with co-author credit.",
   },
   {
-    original: 112833,
-    via: 113188,
-    kind: "co-authored",
-    title: "identify reasoning-only failures",
-    note: "my model/provider log-line idea was carried into the merged change. the broader promotion-policy proposal remains open and is not counted as merged.",
-  },
-  {
     original: 114218,
     via: 114851,
     kind: "co-authored",
@@ -327,17 +570,114 @@ export const integrations = [
     title: "handle concurrent telemetry",
     note: "co-author credit for the investigation. the maintainer replaced my scope-draining approach because it could affect a live sibling turn.",
   },
+  {
+    original: 112833,
+    via: 133729,
+    also: [113188],
+    kind: "authored",
+    title: "keep private reasoning private",
+    note: "rebuilt on current main under my authorship. the merged pr names the route gate, the nemotron default trust and dropping the reasoning preview as my design; the integrator added 15 follow-up commits. my earlier log-line idea was co-credited in #113188.",
+  },
+  {
+    original: 116298,
+    via: 116748,
+    kind: "authored",
+    title: "survive a replaced state database",
+    note: "my commit was cherry-picked with authorship. the maintainer trimmed the tests in a follow-up commit.",
+  },
+  {
+    original: 116206,
+    via: 116824,
+    kind: "authored",
+    title: "fix wayland image paste",
+    note: "my commit was cherry-picked with authorship. the merged pr adds the root-cause write-up and regression coverage.",
+  },
+  {
+    original: 114999,
+    via: 117008,
+    kind: "authored",
+    title: "stop repeated copilot warnings",
+    note: "my dedup helper and auxiliary-client hunks were kept verbatim. the broader no-exchange-for-unselected-provider fix is the maintainer’s follow-up commit.",
+  },
+  {
+    original: 117166,
+    via: 117593,
+    kind: "authored",
+    title: "make silence filtering config-only",
+    note: "salvaged into a wider per-profile settings fix that also carries two other contributors’ work.",
+  },
+  {
+    original: 119085,
+    via: 119085,
+    kind: "authored",
+    direct: true,
+    title: "aggregate sessions across gateways",
+    note: "merged directly under its own pr number. both commits on main are mine.",
+  },
+  {
+    original: 118990,
+    via: 121607,
+    kind: "authored",
+    title: "load the local skin first",
+    note: "my commit was cherry-picked with authorship kept. a different pr’s post-mount fetch was not taken.",
+  },
+  {
+    original: 121722,
+    via: 126145,
+    kind: "authored",
+    title: "gate slash commands per profile",
+    note: "my commit landed. the maintainer reduced the helper to a smaller function and resolves the bot-owning profile’s config instead of the routed one.",
+  },
+  {
+    original: 119037,
+    via: 128455,
+    kind: "authored",
+    title: "keep steering through rotation",
+    note: "all three commits were cherry-picked with authorship kept, grafted around newer rotation handling on main.",
+  },
+  {
+    original: 131651,
+    via: 131888,
+    kind: "authored",
+    title: "deliver late steering",
+    note: "my commit was cherry-picked unchanged. the integrator added a channel-input correction and combined it with another contributor’s busy follow-up fix.",
+  },
+  {
+    original: 116051,
+    via: 116777,
+    kind: "co-authored",
+    title: "sort finished tasks",
+    note: "another contributor’s earlier patch was the one cherry-picked. mine was superseded, and its comment wording was reused with co-author credit on the docs commit.",
+  },
+  {
+    original: 116454,
+    via: 116851,
+    kind: "co-authored",
+    title: "make ctrl+d exit on mac",
+    note: "a slimmer redo in the same direction, 35 lines instead of 406, with co-author credit. my delete-under-cursor addition was dropped.",
+  },
+  {
+    original: 115511,
+    via: 116975,
+    kind: "co-authored",
+    title: "make /undo and /retry work again",
+    note: "a slimmer redo in the same direction with co-author credit. my content marker and matching relaxation were dropped.",
+  },
+  {
+    original: 118406,
+    via: 118920,
+    kind: "co-authored",
+    title: "reject refusal summaries",
+    note: "my provider refusal-field handling and wider opener set landed as one co-authored commit, on top of a parallel contributor’s detector.",
+  },
 ];
-export const pending = {
-  114999: 117008,
-  115511: 116975,
-  116454: 116851,
-  116206: 116824,
-  116298: 116748,
-  116051: 116777,
-  116167: 116679,
-};
+export const pending = {};
 export const alternatives = {
+  116167: 116679,
+  117504: 117604,
+  121243: 126179,
+  119022: 126179,
+  131597: 136225,
   115095: 117085,
   116311: 116927,
   116248: 116822,
@@ -348,6 +688,50 @@ export const alternatives = {
 };
 
 export const features = [
+  {
+    id: 112833,
+    headline: "private reasoning is not the answer.",
+    before:
+      "on openrouter, deepseek, bedrock and other routes, a reasoning model that stopped with empty content could have its private chain-of-thought shown as the reply.",
+    after:
+      "promote reasoning to the answer only on routes trusted to put answers there, such as the local nemotron parser it was built for. every other route takes the normal recovery path, and the reasoning preview is no longer echoed.",
+    why: "what a model thinks and what it tells the user are different things. the agent should never confuse them.",
+    file: "agent/turn_final_response.py",
+    sha: "71c1669404e773fc9e6b844e1821212c966afc67",
+  },
+  {
+    id: 121722,
+    headline: "every profile keeps its own access rules.",
+    before:
+      "in a multi-profile gateway, slash-command permissions were read from the launch profile. a platform configured only in another profile came back unrestricted, skipping its admin gate.",
+    after:
+      "resolve the policy from the profile that serves the message and fail closed when its config is missing. the merged change keeps the per-profile rule with a smaller helper.",
+    why: "an access check is only as good as the config it reads.",
+    file: "gateway/slash_commands.py",
+    sha: "d067d2fdc39ab1ad7d3f7865733e24dd2965692b",
+  },
+  {
+    id: 118406,
+    headline: "a refusal is not a summary.",
+    before:
+      "when the summary model refused, compression accepted the refusal as the summary and dropped the middle of the conversation behind it.",
+    after:
+      "treat an explicit provider refusal field and a wider set of refusal openers as failures. this landed as one co-authored commit on top of a parallel contributor’s detector.",
+    why: "losing context silently is worse than not compressing at all.",
+    file: "agent/context_compressor.py",
+    sha: "460fef87cac7a643f4fe9d1f6c4aa23b7363750a",
+  },
+  {
+    id: 131651,
+    headline: "a late steer should still arrive.",
+    before:
+      "a /steer sent near the end of a turn was silently discarded if a queued message or background event arrived at the same time.",
+    after:
+      "deliver the steer first and put the pending event back at the head of the queue. my commit was cherry-picked unchanged into the merged fix.",
+    why: "when someone redirects the agent, that instruction must not disappear.",
+    file: "gateway/run_turn.py",
+    sha: "c6406d57bf0d050eaff8ae264034b5388fe73dd8",
+  },
   {
     id: 110933,
     headline: "an update should not erase your work.",
@@ -360,59 +744,15 @@ export const features = [
     sha: "a4f0a5e0357b87cef3ba0bcbf32d158a03d58b89",
   },
   {
-    id: 112930,
-    headline: "a running task belongs to one session.",
+    id: 119085,
+    headline: "every gateway, one sessions list.",
     before:
-      "switching conversations with /resume could change the session underneath an active agent turn.",
+      "with several registered connections, the desktop sessions sidebar only ever showed the selected gateway, so grouping by gateway and profile never spanned more than one.",
     after:
-      "refuse the switch while the agent is busy. the merged change combines this with the /branch guard and tests the session identity staying put.",
-    why: "a small guard protects a much larger state boundary.",
-    file: "hermes_cli/cli_commands_mixin.py",
-    sha: "a3cd00cae50505268db1f7614a8cb506ef8dcc02",
-  },
-  {
-    id: 112947,
-    headline: "image quality needs a sensible budget.",
-    before:
-      "native vision embeds used a hardcoded 256 kb byte budget and were sent again in later conversation turns.",
-    after:
-      "make the embed budget configurable with safe bounds, and use the setting for native image and browser screenshot paths.",
-    why: "useful for tuning agent workflows where image detail and repeated payload size both matter. no speedup is claimed here.",
-    file: "tools/vision_tools_history_budget.py",
-    sha: "f37336522be2e5e7ac051100390b529ed35a43e6",
-  },
-  {
-    id: 116083,
-    headline: "one provider name should mean one route.",
-    before:
-      "the openai alias worked for some auxiliary tasks but failed in the runtime resolver used by others.",
-    after:
-      "the merged redo shares one alias helper across both paths. my diagnosis and shared-helper direction received co-author credit.",
-    why: "consistent routing matters when an agent delegates work to different models.",
-    file: "hermes_cli/runtime_provider_custom.py",
-    sha: "956a8c843ddc63e4631a06b33a8635b8710777b7",
-  },
-  {
-    id: 112730,
-    headline: "shorter context should still tell the truth.",
-    before:
-      "a compressed skill-tool result could lose the operation or make a failed call look successful.",
-    after:
-      "the merged change retains operation names and failure outcomes in short summaries. my contribution received shared co-author credit.",
-    why: "compaction is useful only if the agent can still understand what happened.",
-    file: "agent/context_compressor.py",
-    sha: "5670f846cf168497d951019c49abd345d6bff561",
-  },
-  {
-    id: 110859,
-    headline: "a dropped viewer should not pin a terminal.",
-    before:
-      "a failed socket send could leave a terminal marked as attached and prevent normal cleanup.",
-    after:
-      "capture the viewer before sending and detach it on failure. the existing identity guard keeps a replacement viewer safe.",
-    why: "handles both buffered replay and live output, including a viewer changing mid-send.",
-    file: "hermes_cli/pty_session.py",
-    sha: "6d622d8eba5d48bbd5695b8c676952f6977ba7ad",
+      "send all-profiles session reads through the existing aggregate path, keep each session attached to its ssh or local owner, and page large reads so nothing is cut off.",
+    why: "an overview is only useful if it shows everything you are connected to. merged directly as #119085.",
+    file: "apps/desktop/electron/profile-session-routing.ts",
+    sha: "e21291663f72a45c95cb80078912dfa0f1e57166",
   },
 ];
 
@@ -449,10 +789,32 @@ export const quotes = [
     context: "on the concurrent telemetry investigation",
     label: "landed on main",
   },
+  {
+    pr: 133729,
+    by: "kshitijk4poor",
+    quote:
+      "The route gate, the Nemotron default trust and dropping the reasoning preview are his design.",
+    context: "on keeping private reasoning private",
+    label: "design credited",
+  },
+  {
+    pr: 117008,
+    by: "teknium1",
+    quote: "dedup helper + aux-chain hunks kept verbatim",
+    context: "on the copilot warning fix",
+    label: "kept verbatim",
+  },
+  {
+    pr: 128455,
+    by: "OutThisLife",
+    quote: "all 3 commits cherry-picked, authorship kept",
+    context: "on steering through session rotation",
+    label: "authorship kept",
+  },
 ];
 
 // direct excerpts from integration prs authored by @teknium1. each row is
-// tied to one of the 13 integration paths where his pr body names the work.
+// tied to an integration path where his pr body names the work.
 export const cofounderTrail = [
   {
     original: 110933,
@@ -549,5 +911,62 @@ export const cofounderTrail = [
     quote: "credited via `Co-authored-by` on the #115471 commit",
     label: "concurrent telemetry",
     note: "the investigation was carried into a safer relay-scope fix",
+  },
+  {
+    original: 116298,
+    via: 116748,
+    quote: "Salvages #116298 (@MohamadKanso) — cherry-picked with authorship",
+    label: "state database",
+    note: "the close-race fix was cherry-picked; the tests were trimmed in a follow-up",
+  },
+  {
+    original: 116051,
+    via: 116777,
+    quote: "its comment wording reused with co-author credit",
+    label: "kanban sort",
+    note: "the source is explicit that this was superseded and only the wording was reused",
+  },
+  {
+    original: 116206,
+    via: 116824,
+    quote: "Salvages #116206 (@MohamadKanso) — cherry-picked with authorship.",
+    label: "wayland paste",
+    note: "the stdin fix for clipboard probes was carried as-is",
+  },
+  {
+    original: 116454,
+    via: 116851,
+    quote: "Slimmer redo of #116454 (@MohamadKanso, `Co-authored-by`)",
+    label: "ctrl+d exit",
+    note: "a smaller implementation in the same direction",
+  },
+  {
+    original: 115511,
+    via: 116975,
+    quote: "Slimmer redo of #115511 by @MohamadKanso",
+    label: "undo and retry",
+    note: "same direction, with co-author credit on the commit",
+  },
+  {
+    original: 114999,
+    via: 117008,
+    quote:
+      "Salvages #114999 (@MohamadKanso, cherry-picked): dedup helper + aux-chain hunks kept verbatim",
+    label: "copilot warnings",
+    note: "the dedup helper and auxiliary-client hunks were kept verbatim",
+  },
+  {
+    original: 117166,
+    via: 117593,
+    quote: "salvaged from #117166 (@MohamadKanso)",
+    label: "silence filtering",
+    note: "the config-only silence filter was carried into the per-profile settings fix",
+  },
+  {
+    original: 121722,
+    via: 126145,
+    quote: "Salvages #121722 by @MohamadKanso",
+    label: "slash access",
+    note: "the helper was slimmed and resolves the bot-owning profile’s config",
   },
 ];

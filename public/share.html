@@ -100,7 +100,7 @@
         gap: 46px;
         align-items: center;
       }
-      .girl-stage {
+      .mark-stage {
         height: 100%;
         position: relative;
         display: flex;
@@ -108,30 +108,35 @@
         justify-content: center;
         border-right: 1px solid #ffffff3d;
       }
-      .girl-stage:before,
-      .girl-stage:after {
+      .mark-stage:before,
+      .mark-stage:after {
         content: "";
         position: absolute;
         border: 1px solid #ffffff24;
         border-radius: 50%;
       }
-      .girl-stage:before {
+      .mark-stage:before {
         width: 276px;
         height: 276px;
       }
-      .girl-stage:after {
+      .mark-stage:after {
         width: 226px;
         height: 226px;
       }
-      .nous-girl {
-        width: auto;
-        height: 350px;
-        display: block;
+      .mk-mark {
         position: relative;
         z-index: 1;
+        width: 188px;
+        height: 188px;
+        display: grid;
+        place-items: center;
+        border: 1px solid #ffffffb0;
+        font: 300 112px/1 display;
+        letter-spacing: -3px;
+        padding-bottom: 8px;
         filter: drop-shadow(0 0 22px #ffffff21);
       }
-      .girl-caption {
+      .mark-caption {
         position: absolute;
         left: 8px;
         bottom: 9px;
@@ -145,7 +150,7 @@
         font-size: 9px;
         letter-spacing: 0.05em;
       }
-      .girl-caption strong {
+      .mark-caption strong {
         font: 400 18px/1 display;
         letter-spacing: 0.03em;
       }
@@ -207,6 +212,7 @@
         display: flex;
         justify-content: space-between;
         font-size: 12px;
+        align-items: baseline;
       }
       .stats strong {
         font-weight: 400;
@@ -246,16 +252,10 @@
         >
       </header>
       <div class="hero-layout">
-        <div class="girl-stage">
-          <img
-            class="nous-girl"
-            src="https://web-assets.nousresearch.com/nousnet-web/assets/hermes-landing/teams/nous-girl.66f8944c40c50f8c.svg"
-            alt="Nous Research"
-            width="250"
-            height="350"
-            decoding="sync" />
-          <span class="girl-caption"
-            ><strong>nous research</strong><span>hermes agent</span></span
+        <div class="mark-stage">
+          <span class="mk-mark" aria-label="mohamad kanso">m/k</span>
+          <span class="mark-caption"
+            ><strong>mohamad kanso</strong><span>contributor record</span></span
           >
         </div>
         <div class="headline-block">
@@ -264,7 +264,7 @@
           <div class="hero-meta">
             <p>mohamad kanso<br />independent contributor</p>
             <p class="project-line">
-              14 paths into main<br />code, context, outcome
+              27 paths into main<br />code, context, outcome
             </p>
           </div>
           <svg viewBox="0 0 600 420" aria-label="contribution paths">
@@ -275,23 +275,22 @@
         </div>
       </div>
       <div class="stats">
-        <span><strong>14</strong> landed paths</span>
-        <span><strong>17</strong> credited commits</span>
-        <span><strong>45</strong> pull requests</span>
-        <span><strong>247k+</strong> github stars</span>
-        <small>verified september 2026</small>
+        <span><strong>27</strong> landed contributions</span>
+        <span><strong>21+13</strong> credited commits</span>
+        <span><strong>95</strong> pull requests</span>
+        <span><strong>1</strong> merged directly</span>
+        <small>verified 17 october 2026</small>
       </div>
     </div>
     <script>
       document.querySelector("#lines").innerHTML = Array.from(
-        { length: 14 },
+        { length: 27 },
         (_, i) => {
-          const y = 78 + i * 23,
+          const y = 78 + i * 11.5,
             x = 35 + Math.cos(i * 0.4) * 25;
           return `<path d="M${x} ${y} C195 ${y},225 220,325 240 S480 170,555 25"/><circle cx="${x}" cy="${y}" r="2.5"/>`;
         },
-      )
-        .join("");
+      ).join("");
     </script>
   </body>
 </html>

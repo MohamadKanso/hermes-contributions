@@ -20,27 +20,22 @@ const ghPR = (n) => `https://github.com/NousResearch/hermes-agent/pull/${n}`;
 const hermesSite = "https://hermes-agent.nousresearch.com/";
 const hermesRepo = "https://github.com/NousResearch/hermes-agent";
 const nousLogo = "https://avatars.githubusercontent.com/u/134168893?v=4";
+// github api snapshot, 17 october 2026: 254,565 stars, 55,331 forks, 977 subscribers.
 const publicScale = [
   {
-    value: "247k+",
+    value: "254k+",
     label: "github stars",
     url: hermesRepo,
     note: "official repo snapshot",
   },
   {
-    value: "52k+",
+    value: "55k+",
     label: "github forks",
     url: hermesRepo,
     note: "official repo snapshot",
   },
   {
-    value: "≈260k",
-    label: "x followers · nous research",
-    url: "https://x.com/NousResearch",
-    note: "rounded public estimate",
-  },
-  {
-    value: "959",
+    value: "977",
     label: "github subscribers",
     url: hermesRepo,
     note: "official repo snapshot",
@@ -79,35 +74,48 @@ async function init() {
 }
 
 function graph() {
+  const n = data.integrations.length;
+  const step = n > 1 ? Math.min(26, 338 / (n - 1)) : 0;
+  const labelEvery = Math.ceil(26 / step / 1.2) || 3;
   const paths = data.integrations
     .map((r, i) => {
-      const y = 120 + i * 26;
+      const y = 120 + i * step;
       const x = 72 + Math.cos(i * 0.48) * 43;
       const lines = Array.from({ length: 5 }, (_, k) => {
         const o = k * 2.8;
         return `<path d="M${x} ${y + o} C${235 + o} ${y + o}, ${246 + o} ${240 - o}, 330 ${255 - o} S${508 + o} ${224 - o}, 565 ${39 + o}"/>`;
       }).join("");
-      return `<g class="map-thread" data-map-thread="${r.original}">${lines}<a href="#pr-${r.original}" aria-label="${e(r.title)}: view contribution"><circle class="map-hit" cx="${x}" cy="${y}" r="12"/><circle class="map-node" cx="${x}" cy="${y}" r="3"/>${i % 3 === 0 ? `<text x="${x - 12}" y="${y + 3}" text-anchor="end">${r.original}</text>` : ""}</a></g>`;
+      return `<g class="map-thread" data-map-thread="${r.original}">${lines}<a href="#pr-${r.original}" aria-label="${e(r.title)}: view contribution"><circle class="map-hit" cx="${x}" cy="${y}" r="12"/><circle class="map-node" cx="${x}" cy="${y}" r="3"/>${i % Math.max(3, labelEvery) === 0 ? `<text x="${x - 12}" y="${y + 3}" text-anchor="end">${r.original}</text>` : ""}</a></g>`;
     })
     .join("");
-  return `<svg class="contribution-map" viewBox="0 0 650 535" role="group" aria-label="14 contribution paths into hermes main">
+  return `<svg class="contribution-map" viewBox="0 0 650 535" role="group" aria-label="${n} contribution paths into hermes main">
     <g class="map-guides"><path d="M22 505H621M330 70V483M565 20V505"/><path d="M324 70h12M324 483h12M559 505h12"/></g>
     <g class="map-streams">${paths}</g><circle cx="565" cy="39" r="4" fill="currentColor"/>
-    <text class="map-end" x="582" y="43">main</text><text x="338" y="397">14 paths</text><text x="338" y="413">into hermes</text>
+    <text class="map-end" x="582" y="43">main</text><text x="338" y="397">${n} paths</text><text x="338" y="413">into hermes</text>
     <text x="23" y="524">original patches</text><text x="622" y="524" text-anchor="end">merged changes</text>
   </svg>`;
 }
 
 function renderPage() {
   const m = data.metrics;
+  const mergedWith = (role) =>
+    new Set(
+      data.commits
+        .filter((c) => c.role === role)
+        .flatMap((c) => c.mergedThrough),
+    );
+  const authoredVia = mergedWith("author on main");
+  const coOnly = [...mergedWith("co-author on main")].filter(
+    (n) => !authoredVia.has(n),
+  ).length;
   document.querySelector("#app").innerHTML = `
   <section class="hero blue" id="top">
     <div class="hero-frame">
       <header class="header"><a class="wordmark" href="#top" aria-label="mohamad kanso home"><span class="mark" aria-hidden="true">m/k</span> mohamad kanso</a><nav aria-label="main navigation"><a href="#work">work</a><a href="#credits">credits</a><a href="#archive">archive</a>${ext("https://github.com/MohamadKanso", "github", "nav-github")}</nav></header>
-      <div class="hero-content"><div class="hero-copy"><a class="hero-project" href="${hermesSite}" target="_blank" rel="noopener noreferrer" aria-label="visit Hermes Agent by Nous Research"><img class="hero-project-logo" src="${nousLogo}" alt="" width="38" height="38" decoding="async"><span class="hero-project-copy"><strong>hermes agent</strong><small>by nous research · open source</small></span>${outArrow}</a><p class="overline"><span class="status-dot"></span> independent open-source contributor</p><h1>small fixes.<br><strong>real impact.</strong></h1><p class="hero-intro">i contribute to hermes agent, the open-source agent from nous research. here’s the work and the path into main.</p><a class="button hero-cta" href="#work">explore the work ${arrow}</a><a class="project-link" href="${hermesRepo}" target="_blank" rel="noopener noreferrer">hermes agent / nous research ${outArrow}</a></div>
+      <div class="hero-content"><div class="hero-copy"><a class="hero-project" href="${hermesSite}" target="_blank" rel="noopener noreferrer" aria-label="visit Hermes Agent by Nous Research"><img class="hero-project-logo" src="${nousLogo}" alt="" width="38" height="38" decoding="async"><span class="hero-project-copy"><strong>hermes agent</strong><small>by nous research · open source</small></span>${outArrow}</a><p class="overline"><span class="status-dot"></span> independent open-source contributor</p><h1>real contributions.<br><strong>landed upstream.</strong></h1><p class="hero-intro">i contribute to hermes agent, the open-source agent from nous research. here’s the work and the path into main.</p><a class="button hero-cta" href="#work">explore the work ${arrow}</a><a class="project-link" href="${hermesRepo}" target="_blank" rel="noopener noreferrer">hermes agent / nous research ${outArrow}</a></div>
       <div class="map-wrap">${graph()}<div class="map-caption"><span id="map-caption">each point opens a real contribution</span><button id="motion-toggle" aria-pressed="true">motion on</button></div><aside class="project-scale" aria-label="public Hermes Agent scale"><div class="project-scale-heading"><span>hermes agent / public scale</span><a href="${hermesSite}" target="_blank" rel="noopener noreferrer">official site ${outArrow}</a></div><div class="project-scale-grid">${publicScale.map((item) => `<a class="project-metric" href="${e(item.url)}" target="_blank" rel="noopener noreferrer" title="${e(item.note)}"><strong>${e(item.value)}</strong><span>${e(item.label)}</span></a>`).join("")}</div><p class="project-scale-note"><span class="status-dot"></span>hermes user count isn’t publicly disclosed · figures are a dated public snapshot</p></aside></div></div>
-      <div class="hero-stats"><a href="#method"><strong>${m.landed.toString().padStart(2, "0")}</strong><span>landed contributions<small>through merged community prs</small></span></a><a href="#archive" data-jump="commits"><strong>${m.authoredMain + m.coauthoredMain}</strong><span>credited commits on main<small>8 authored + 9 co-authored</small></span></a><a href="#archive" data-jump="prs"><strong>${m.prs}</strong><span>pull requests opened<small>the full record, not just the wins</small></span></a></div>
-    </div><div class="hero-foot"><span>field notes / 13–20 september 2026</span><span>snapshot checked ${displayDate(data.checkedAt)}</span></div>
+      <div class="hero-stats"><a href="#method"><strong>${m.landed.toString().padStart(2, "0")}</strong><span>landed contributions<small>${m.directMerges} merged directly · #119085</small></span></a><a href="#archive" data-jump="commits"><strong>${m.authoredMain + m.coauthoredMain}</strong><span>credited commits on main<small>${m.authoredMain} authored + ${m.coauthoredMain} co-authored</small></span></a><a href="#archive" data-jump="prs"><strong>${m.prs}</strong><span>pull requests opened<small>the full record, not just the wins</small></span></a></div>
+    </div><div class="hero-foot"><span>field notes / 13 september – 17 october 2026</span><span>snapshot checked ${displayDate(data.checkedAt)}</span></div>
   </section>
   <section class="section work" id="work"><div class="section-rule"><span>01 / selected work</span><span>code, context, outcome</span></div><div class="section-heading"><h2>the work,<br><em>in context.</em></h2><p>small changes at the boundaries where agents lose context, switch sessions, route models or fail to recover.</p></div>
     <div class="feature-layout"><div class="feature-menu" role="tablist" aria-label="selected contributions">${data.features.map((f, i) => `<button role="tab" id="feature-tab-${i}" aria-selected="${i === 0}" aria-controls="feature-panel" tabindex="${i === 0 ? 0 : -1}" data-feature="${i}"><span class="feature-index">0${i + 1}</span><span>${e(descriptionsFor(f.id).title)}</span>${arrow}</button>`).join("")}</div><div id="feature-panel" role="tabpanel" aria-labelledby="feature-tab-0" tabindex="0"></div></div>
@@ -146,7 +154,7 @@ function renderPage() {
     <p class="archive-explainer" id="archive-explainer"></p><div id="archive-panel" role="tabpanel" aria-labelledby="archive-tab-prs"><div id="archive-table"></div></div>
     <div class="pagination"><p id="result-count" aria-live="polite"></p><div><button id="prev-page" aria-label="previous archive page">${arrow}</button><span id="page-label"></span><button id="next-page" aria-label="next archive page">${arrow}</button></div></div>
   </section>
-  <section class="section method" id="method"><div class="section-rule"><span>05 / how this is counted</span><span>no inflated numbers</span></div><div class="method-grid"><h2>proof,<br><em>not a claim.</em></h2><div><p class="method-lead">${m.landed} distinct contributions are connected to merged upstream prs with author or co-author credit.</p><p>six merged prs contain my authored commits. eight more carry co-author credit. that is ${m.authoredMain} authored and ${m.coauthoredMain} co-authored commits on main. the work is collaborative, not a claim that i wrote each merged pr in full.</p><details><summary>what “landed” means here ${arrow}</summary><p>maintainers carried accepted work into merged upstream prs while preserving author or co-author credit. this page keeps the original proposals and their final integration paths side by side. some original prs are closed, and one still-open proposal has a smaller idea credited in an already-merged change. the archive records both states.</p></details><details><summary>audit scope and limits ${arrow}</summary><p>checked ${m.scannedPRs} authored or mention-related prs, ${m.issues} related issues and ${m.inspectedCommits} distinct commit objects. ${m.prCommits} are reachable from the recorded pr histories, including ${m.authoredPrCommits} authored by me and two upstream commits. ${m.authoredIssues} issues were filed by me; the issue list is related work, not an authorship claim.</p><p>the ${m.mentions} mention count is distinct public descriptions or comments by other accounts that explicitly tag me, including ${m.tekniumMentions} by teknium. mentions can be credit, coordination or criticism, not all praise. deleted content, overwritten branch history and unlinked private discussion are outside this audit.</p><p>the monthly top-50 ranking was not verified and is not claimed. this is a dated snapshot, not a live status dashboard.</p></details><details><summary>source, reuse and build notes ${arrow}</summary><p>the design takes cues from the ultramarine hermes landing page and the quieter nous research site. the implementation and contribution map are original. no official branding, proprietary fonts or artwork have been copied.</p><p>code excerpts are from the mit-licensed hermes repository. comments are short linked excerpts. this is an independent contributor’s portfolio, not an official nous research page.</p><p>${ext("https://github.com/MohamadKanso/hermes-contributions", "site source")} ${ext("https://hermes-agent.nousresearch.com/", "hermes reference")} ${ext("https://nousresearch.com/", "nous reference")}</p></details><a class="download-link" href="${import.meta.env.BASE_URL}data/contributions.json" download="hermes-contributions-2026-09-20.json">download the evidence index ${arrow}</a></div></div></section>
+  <section class="section method" id="method"><div class="section-rule"><span>05 / how this is counted</span><span>no inflated numbers</span></div><div class="method-grid"><h2>proof,<br><em>not a claim.</em></h2><div><p class="method-lead">${m.landed} distinct contributions are connected to merged upstream prs with author or co-author credit.</p><p>${mergedWith("author on main").size} merged prs contain my authored commits. ${coOnly} more carry co-author credit. that is ${m.authoredMain} authored and ${m.coauthoredMain} co-authored commits on main. #119085 was merged directly under its own pr number. #113188 and #133729 carry parts of the same original proposal, so they count as one contribution. the work is collaborative, not a claim that i wrote each merged pr in full.</p><details><summary>what “landed” means here ${arrow}</summary><p>maintainers carried accepted work into merged upstream prs while preserving author or co-author credit. this page keeps the original proposals and their final integration paths side by side. some original prs are closed, a few are still open even though their work landed through another pr, and one was merged directly. the archive records each state.</p></details><details><summary>audit scope and limits ${arrow}</summary><p>checked ${m.scannedPRs} authored or mention-related prs, ${m.issues} related issues and ${m.inspectedCommits} distinct commit objects. ${m.prCommits} are reachable from the recorded pr histories, including ${m.authoredPrCommits} authored by me and ${m.prCommits - m.authoredPrCommits} upstream commits. ${m.authoredIssues} issues were filed by me; the issue list is related work, not an authorship claim.</p><p>the ${m.mentions} mention count is distinct public descriptions or comments by other accounts that explicitly tag me, including ${m.tekniumMentions} by teknium. mentions can be credit, coordination or criticism, not all praise. deleted content, overwritten branch history and unlinked private discussion are outside this audit.</p><p>no contributor ranking is claimed. this is a dated snapshot, not a live status dashboard.</p></details><details><summary>source, reuse and build notes ${arrow}</summary><p>the design takes cues from the ultramarine hermes landing page and the quieter nous research site. the implementation and contribution map are original. no official branding, proprietary fonts or artwork have been copied.</p><p>code excerpts are from the mit-licensed hermes repository. comments are short linked excerpts. this is an independent contributor’s portfolio, not an official nous research page.</p><p>${ext("https://github.com/MohamadKanso/hermes-contributions", "site source")} ${ext("https://hermes-agent.nousresearch.com/", "hermes reference")} ${ext("https://nousresearch.com/", "nous reference")}</p></details><a class="download-link" href="${import.meta.env.BASE_URL}data/contributions.json" download="hermes-contributions-2026-10-17.json">download the evidence index ${arrow}</a></div></div></section>
   <footer class="footer blue"><div class="footer-main"><div><p class="overline">more useful agents. one contribution at a time.</p><a class="footer-name" href="https://github.com/MohamadKanso" target="_blank" rel="noopener noreferrer">mohamad kanso ${outArrow}</a></div><div class="footer-links">${ext("https://github.com/MohamadKanso", "github")}${ext("https://www.linkedin.com/in/mohamadkanso/", "linkedin")}<a href="#top">back to top ${arrow}</a></div></div><div class="footer-fine"><span>independent contributor / not affiliated with nous research</span><span>built for the work to speak for itself / 2026</span></div></footer>`;
 }
 function descriptionsFor(id) {
@@ -162,7 +170,7 @@ function renderFeature() {
   });
   const panel = document.querySelector("#feature-panel");
   panel.setAttribute("aria-labelledby", `feature-tab-${state.feature}`);
-  panel.innerHTML = `<div class="feature-meta"><span>${e(p.area)}</span><span class="status landed">${l.kind === "authored" ? "authored code landed" : "co-author credit"}</span></div><h3>${e(f.headline)}</h3><div class="before-after"><div><span class="overline">the problem</span><p>${e(f.before)}</p></div><div><span class="overline">what changed</span><p>${e(f.after)}</p></div></div><div class="lineage">${p.issues.length ? `<a href="https://github.com/NousResearch/hermes-agent/issues/${p.issues[0]}" target="_blank" rel="noopener noreferrer"><small>reported issue</small>#${p.issues[0]}</a>` : "<span><small>reported issue</small>upstream report</span>"}${arrow}<a href="${p.url}" target="_blank" rel="noopener noreferrer"><small>my proposal</small>#${f.id}</a>${arrow}<a href="${l.url}" target="_blank" rel="noopener noreferrer"><small>merged change</small>#${l.via}</a></div><div class="code-panel"><div class="code-heading"><span>landed diff / ${e(f.snippet.path)}</span>${ext(f.snippet.url, "source")}</div><pre tabindex="0" aria-label="landed code excerpt"><code>${diffHtml(f.snippet.text)}</code></pre><p>excerpt from ${f.sha.slice(0, 7)} · ${l.kind === "authored" ? "authored commit" : "shared co-authored commit"}</p></div><div class="feature-note"><p>${e(l.note)}</p><button class="text-link" data-detail="${f.id}">full contribution record ${arrow}</button></div>`;
+  panel.innerHTML = `<div class="feature-meta"><span>${e(p.area)}</span><span class="status landed">${l.direct ? "merged directly" : l.kind === "authored" ? "authored code landed" : "co-author credit"}</span></div><h3>${e(f.headline)}</h3><div class="before-after"><div><span class="overline">the problem</span><p>${e(f.before)}</p></div><div><span class="overline">what changed</span><p>${e(f.after)}</p></div></div><div class="lineage">${p.issues.length ? `<a href="https://github.com/NousResearch/hermes-agent/issues/${p.issues[0]}" target="_blank" rel="noopener noreferrer"><small>reported issue</small>#${p.issues[0]}</a>` : "<span><small>reported issue</small>upstream report</span>"}${arrow}<a href="${p.url}" target="_blank" rel="noopener noreferrer"><small>my proposal</small>#${f.id}</a>${arrow}<a href="${l.url}" target="_blank" rel="noopener noreferrer"><small>merged change</small>#${l.via}</a></div><div class="code-panel"><div class="code-heading"><span>landed diff / ${e(f.snippet.path)}</span>${ext(f.snippet.url, "source")}</div><pre tabindex="0" aria-label="landed code excerpt"><code>${diffHtml(f.snippet.text)}</code></pre><p>excerpt from ${f.sha.slice(0, 7)} · ${l.kind === "authored" ? "authored commit" : "shared co-authored commit"}</p></div><div class="feature-note"><p>${e(l.note)}</p><button class="text-link" data-detail="${f.id}">full contribution record ${arrow}</button></div>`;
 }
 const filterOptions = {
   prs: [
@@ -205,12 +213,10 @@ function renderArchive() {
     .setAttribute("aria-labelledby", `archive-tab-${state.tab}`);
   document.querySelector("#archive-explainer").textContent = {
     prs: "“landed” follows the accepted contribution into a maintainer pr. it does not mean the original pr was merged directly.",
-    commits:
-      "17 credited commits on main plus 66 distinct commits in the original pr histories. rebased or cherry-picked versions are separate objects, not extra fixes.",
+    commits: `${data.metrics.authoredMain + data.metrics.coauthoredMain} credited commits on main plus ${data.metrics.prCommits} distinct commits in the original pr histories. rebased or cherry-picked versions are separate objects, not extra fixes.`,
     issues:
       "related reports read during the audit. these were filed by the community, not by me. a closed issue is not automatically my fix.",
-    mentions:
-      "39 distinct places where another account tagged me. some are credit, some are coordination or criticism. open the source for the full context.",
+    mentions: `${data.metrics.mentions} distinct places where another account tagged me. some are credit, some are coordination or criticism. open the source for the full context.`,
   }[state.tab];
   document.querySelectorAll("[data-tab]").forEach((b) => {
     b.setAttribute("aria-selected", String(b.dataset.tab === state.tab));
@@ -227,7 +233,7 @@ function renderArchive() {
   const rows = slice
     .map((item) => {
       if (state.tab === "prs")
-        return `<tr><td class="ref">#${item.number}</td><td><button class="row-title" data-detail="${item.number}">${e(item.title)} ${outArrow}</button><small class="row-subtitle">${e(item.summary)}</small></td><td class="area-cell">${e(item.area)}</td><td><span class="status ${item.status.replaceAll(" ", "-")}">${e(outcomeLabel(item))}</span>${item.landed ? `<small class="row-subtitle">via #${item.landed.via}${item.state === "open" ? "<br>original pr open" : ""}</small>` : ""}</td></tr>`;
+        return `<tr><td class="ref">#${item.number}</td><td><button class="row-title" data-detail="${item.number}">${e(item.title)} ${outArrow}</button><small class="row-subtitle">${e(item.summary)}</small></td><td class="area-cell">${e(item.area)}</td><td><span class="status ${item.status.replaceAll(" ", "-")}">${e(outcomeLabel(item))}</span>${item.landed ? `<small class="row-subtitle">${item.landed.direct ? "merged directly" : `via #${item.landed.via}`}${item.state === "open" ? "<br>original pr open" : ""}</small>` : ""}</td></tr>`;
       if (state.tab === "commits")
         return `<tr><td class="ref">${item.sha.slice(0, 7)}</td><td>${ext(item.url, e(item.title), "row-title")}<small class="row-subtitle">${displayDate(item.date)} · ${item.files.length} files</small></td><td class="area-cell">${e(item.role)}</td><td><span class="status ${item.onMain ? "landed" : "open"}">${item.onMain ? "on main" : "pr history"}</span></td></tr>`;
       if (state.tab === "issues")
@@ -281,7 +287,7 @@ function showDetail(number) {
   const dialog = document.querySelector("#detail-dialog");
   if (!dialog.open) lastFocus = document.activeElement;
   const role = p.landed
-    ? `<p class="detail-outcome">${e(p.landed.note)}</p>${ext(p.landed.url, `merged through #${p.landed.via}`, "button")}`
+    ? `<p class="detail-outcome">${e(p.landed.note)}</p>${ext(p.landed.url, p.landed.direct ? `merged directly as #${p.landed.via}` : `merged through #${p.landed.via}`, "button")}${p.landed.also.map((a) => ext(a.url, `earlier credit in #${a.number}`)).join("")}`
     : p.pending
       ? `<p class="detail-outcome">a maintainer has a related integration open at #${p.pending.number}. it has not been counted as landed.</p>${ext(p.pending.url, "view the integration", "button")}`
       : `<p class="detail-outcome">${p.state === "open" ? "this proposal is still open. it is not counted as a landed contribution." : "this original pr is closed. no authored or co-authored main-branch commit was verified for it in this audit."}</p>${p.alternative ? ext(p.alternative, "related maintainer decision", "button") : ""}`;

@@ -10,12 +10,16 @@ assert.equal(
 );
 assert.equal(d.mentions.length, d.metrics.mentions);
 assert.equal(d.issues.length, d.metrics.issues);
-assert.equal(d.cofounderTrail.length, 13);
+assert.equal(d.cofounderTrail.length, 21);
 assert.equal(new Set(d.prs.map((x) => x.number)).size, d.prs.length);
 assert.equal(new Set(d.commits.map((x) => x.sha)).size, d.commits.length);
 assert.equal(
   new Set(d.integrations.map((x) => x.original)).size,
   d.integrations.length,
+);
+assert.equal(
+  d.integrations.filter((i) => i.direct).length,
+  d.metrics.directMerges,
 );
 for (const i of d.integrations) {
   assert.ok(i.date);

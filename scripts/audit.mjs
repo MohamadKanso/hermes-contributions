@@ -70,12 +70,14 @@ async function search(q) {
 }
 
 const searches = await mapLimit(
-  accounts.flatMap((name) => [
-    `repo:${repo} is:pr author:${name}`,
-    `repo:${repo} is:issue author:${name}`,
-    `repo:${repo} mentions:${name}`,
-    `repo:${repo} "${name}" in:body,comments`,
-  ]),
+  accounts
+    .flatMap((name) => [
+      `repo:${repo} is:pr author:${name}`,
+      `repo:${repo} is:issue author:${name}`,
+      `repo:${repo} mentions:${name}`,
+      `repo:${repo} "${name}" in:body,comments`,
+    ])
+    .concat(`repo:${repo} is:pr "Mohamad Kanso" in:body`),
   search,
 );
 await writeFile(

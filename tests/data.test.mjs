@@ -18,14 +18,19 @@ test("every original pr has a plain-language summary and a real source", () => {
   }
 });
 test("landed is contribution-level, not original pr merge state", () => {
-  assert.equal(filterRecords(d, "prs", "", "landed").length, 14);
-  assert.equal(d.prs.filter((p) => p.mergedAt).length, 0);
+  assert.equal(filterRecords(d, "prs", "", "landed").length, 27);
+  assert.deepEqual(
+    d.prs.filter((p) => p.mergedAt).map((p) => p.number),
+    [119085],
+  );
   assert.ok(
     filterRecords(d, "prs", "", "open").some((p) => p.status === "landed"),
   );
 });
-test("all 17 credited main commits are searchable", () => {
-  assert.equal(filterRecords(d, "commits", "", "landed").length, 17);
+test("all 34 credited main commits are searchable", () => {
+  assert.equal(filterRecords(d, "commits", "", "landed").length, 34);
+  assert.equal(d.metrics.authoredMain, 21);
+  assert.equal(d.metrics.coauthoredMain, 13);
   for (const c of d.commits.filter((c) => c.onMain))
     assert.equal(filterRecords(d, "commits", c.sha).length, 1);
 });
@@ -42,8 +47,8 @@ test("closed does not imply authored issue or personal merge", () => {
   );
 });
 test("mention totals count source records, not praise", () => {
-  assert.equal(new Set(d.mentions.map((m) => m.url)).size, 39);
-  assert.equal(filterRecords(d, "mentions", "", "teknium1").length, 34);
+  assert.equal(new Set(d.mentions.map((m) => m.url)).size, 81);
+  assert.equal(filterRecords(d, "mentions", "", "teknium1").length, 51);
 });
 test("public source strings are escaped before rendering", () => {
   assert.equal(
@@ -57,7 +62,7 @@ test("every featured source sha is on main", () => {
     assert.ok(d.commits.find((c) => c.onMain && c.sha === f.sha));
 });
 test("every co-founder trail row has a verified source and commit link", () => {
-  assert.equal(d.cofounderTrail.length, 13);
+  assert.equal(d.cofounderTrail.length, 21);
   for (const item of d.cofounderTrail) {
     assert.match(
       item.sourceUrl,

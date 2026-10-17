@@ -439,7 +439,7 @@ table,
 }
 .project-scale-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 8px;
   border: 1px solid #ffffff46;
 }
@@ -846,6 +846,15 @@ table,
 .credit-grid article + article {
   border-left: 1px solid #ffffff45;
   padding-left: 32px;
+}
+@media (min-width: 761px) {
+  .credit-grid article:nth-child(3n + 1) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .credit-grid article:nth-child(n + 4) {
+    border-top: 1px solid #ffffff45;
+  }
 }
 .credit-grid .overline {
   font-size: 8px;
@@ -1794,6 +1803,7 @@ html[data-motion="true"] .map-thread:nth-child(3n + 1) path:nth-child(3) {
     padding: 9px 10px 8px;
   }
   .project-metric:nth-child(3) {
+    grid-column: span 2;
     border-left: 0;
   }
   .project-metric:nth-child(n + 3) {
